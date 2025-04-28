@@ -1,0 +1,16 @@
+python -m streamlit run app.py
+
+resume_analyzer/
+├── app.py                  # Streamlit app (main UI)
+├── pdf_parser.py          # PDF text extraction
+├── web_scraper.py         # LinkedIn/Indeed job description scraping
+├── ats_analyzer.py        # OpenAI-based ATS analysis
+├── embedder.py            # HuggingFace embeddings + Chroma vector store
+├── chatbot.py             # LangChain chatbot with RAG
+├── requirements.txt       # Dependencies
+├── .env                   # API keys
+├── data/
+│   ├── temp_resume.pdf    # Temporary uploaded resume
+│   ├── chroma_db/         # Chroma vector store
+└── static/
+    └── styles.css         # Custom Streamlit CSS

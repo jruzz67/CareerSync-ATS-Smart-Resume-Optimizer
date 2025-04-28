@@ -1,0 +1,15 @@
+.env
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.bak
+*.swp
+data/faiss_db/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

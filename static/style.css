@@ -1,0 +1,13 @@
+body {
+    font-family: Arial, sans-serif;
+}
+.stMetric {
+    background-color: #f0f2f6;
+    padding: 10px;
+    border-radius: 5px;
+}
+.stButton>button {
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+}
