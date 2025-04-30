@@ -1,13 +1,136 @@
+/* style.css */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #1e1e2f 0%, #2a2a4a 100%);
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
 }
+
+.stApp {
+    background: transparent;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1, h2, h3 {
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.stSidebar {
+    background: rgba(30, 30, 47, 0.95);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+}
+
+.stSidebar .stSelectbox {
+    background: #2a2a4a;
+    border-radius: 8px;
+    color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.stSidebar .stSelectbox:hover {
+    background: #3b3b5a;
+    transform: translateY(-2px);
+}
+
 .stMetric {
-    background-color: #f0f2f6;
-    padding: 10px;
-    border-radius: 5px;
+    background: linear-gradient(45deg, #4a4a7a, #6a6a9a);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+    color: #ffffff;
 }
+
+.stMetric:hover {
+    transform: scale(1.02);
+}
+
 .stButton>button {
-    background-color: #4CAF50;
+    background: linear-gradient(45deg, #4CAF50, #66BB6A);
     color: white;
-    border-radius: 5px;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.stButton>button:hover {
+    background: linear-gradient(45deg, #66BB6A, #4CAF50);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.stTextInput, .stTextArea, .stFileUploader {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #ffffff;
+    padding: 10px;
+    transition: all 0.3s ease;
+}
+
+.stTextInput:focus, .stTextArea:focus, .stFileUploader:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+.stAlert {
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.stSpinner {
+    border-top-color: #4CAF50;
+}
+
+/* Card-like containers for sections */
+.card {
+    background: rgba(40, 40, 60, 0.95);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Animations for loading */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.stMarkdown, .stMetric, .stButton {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #2a2a4a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4CAF50;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #66BB6A;
 }
