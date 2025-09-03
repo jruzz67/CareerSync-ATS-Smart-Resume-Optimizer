@@ -4,12 +4,11 @@ from web_scraper import get_job_description
 from ats_analyzer import analyze_resume_with_gemini
 from embedder import create_embeddings
 from chatbot import initialize_chatbot
-import logging
+from util import setup_logging
 import os
 
 # Configure logging
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
+logger = setup_logging()
 
 # Set page configuration
 st.set_page_config(page_title="CareerZync-ATS", layout="wide", initial_sidebar_state="expanded")
@@ -22,7 +21,9 @@ if "chatbot" not in st.session_state:
 if "ats_results" not in st.session_state:
     st.session_state.ats_results = None
 if "user_assumed_ats_percentage" not in st.session_state:
-    st.session_state.user_assumed_ats_percentage = 75.0  # Default to 75%
+    st.session_state.user_assumed_ats_percentage = 75.0
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = []
 
 # Sidebar navigation
 with st.sidebar:
@@ -38,7 +39,6 @@ with st.sidebar:
 if st.session_state.page == "Home":
     st.markdown("<div class='card'><h1>CareerZync-ATS: Smart Resume Optimizer</h1></div>", unsafe_allow_html=True)
     
-    # Input section with columns
     col1, col2 = st.columns([2, 1])
     with col1:
         with st.container():
@@ -64,6 +64,14 @@ if st.session_state.page == "Home":
                         try:
                             os.makedirs("data", exist_ok=True)
                             resume_path = "data/temp_resume.pdf"
+                            # Clear previous resume file
+                            if os.path.exists(resume_path):
+                                os.remove(resume_path)
+                            # Clear previous analysis results
+                            st.session_state.ats_results = None
+                            st.session_state.chatbot = None
+                            st.session_state.chat_history = []
+                            
                             with open(resume_path, "wb") as f:
                                 f.write(uploaded_file.getbuffer())
                             
@@ -92,13 +100,11 @@ elif st.session_state.page == "ATS Analysis":
     
     if st.session_state.ats_results:
         results = st.session_state.ats_results
-        # Display metrics in a grid
         col1, col2 = st.columns(2)
         with col1:
             st.markdown("<div class='card'>", unsafe_allow_html=True)
             st.metric("Actual ATS Pass Percentage", f"{results['ats_compatibility_score']}%")
             st.progress(results['ats_compatibility_score'] / 100)
-            # Compare user's assumption with actual score
             user_assumption = st.session_state.user_assumed_ats_percentage
             difference = results['ats_compatibility_score'] - user_assumption
             st.metric(
@@ -118,7 +124,6 @@ elif st.session_state.page == "ATS Analysis":
             st.write("**Trending Skills**: ", ", ".join(results['trending_skills']) or "None")
             st.markdown("</div>", unsafe_allow_html=True)
         
-        # Keywords and suggestions in expanders
         with st.expander("Keywords Analysis", expanded=True):
             st.markdown("<div class='card'>", unsafe_allow_html=True)
             st.write("**Extracted Keywords**: ", ", ".join(results['keywords']) or "None")
@@ -145,6 +150,7 @@ elif st.session_state.page == "Chatbot":
                 with st.spinner("Generating response..."):
                     try:
                         response = st.session_state.chatbot(query)
+                        st.session_state.chat_history.append({"query": query, "response": response})
                         st.markdown("**Chatbot Response**:")
                         st.markdown(response, unsafe_allow_html=True)
                     except Exception as e:
@@ -152,10 +158,15 @@ elif st.session_state.page == "Chatbot":
                         st.error(f"Chatbot error: {str(e)}")
             st.markdown("</div>", unsafe_allow_html=True)
             
-            # Chat history (mockup)
-            with st.expander("Chat History"):
+            with st.expander("Chat History", expanded=True):
                 st.markdown("<div class='card'>", unsafe_allow_html=True)
-                st.write("No chat history available yet.")
+                if st.session_state.chat_history:
+                    for i, chat in enumerate(st.session_state.chat_history):
+                        st.markdown(f"**Q{i+1}:** {chat['query']}")
+                        st.markdown(f"**A{i+1}:** {chat['response']}")
+                        st.markdown("---")
+                else:
+                    st.write("No chat history available yet.")
                 st.markdown("</div>", unsafe_allow_html=True)
     else:
         st.info("No chatbot available. Please analyze a resume on the Home page.")

@@ -1,20 +1,10 @@
-import logging
-import os
-from dotenv import load_dotenv
-import google.generativeai as genai
+from util import setup_logging, configure_gemini
 
 # Setup logging
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
-
-# Load environment variables
-load_dotenv()
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
-if not GOOGLE_API_KEY:
-    raise ValueError("GOOGLE_API_KEY is missing in environment variables.")
+logger = setup_logging()
 
 # Configure Gemini
-genai.configure(api_key=GOOGLE_API_KEY)
+genai = configure_gemini()
 
 def initialize_chatbot(vectorstore, job_title):
     if vectorstore is None:
@@ -43,7 +33,7 @@ def initialize_chatbot(vectorstore, job_title):
 
         try:
             # Initialize Gemini model
-            model = genai.GenerativeModel('gemini-1.5-pro')
+            model = genai.GenerativeModel('gemini-1.5-flash')
             
             # Generate response
             response = model.generate_content(

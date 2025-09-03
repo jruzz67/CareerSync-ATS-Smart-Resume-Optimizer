@@ -24,7 +24,7 @@ def analyze_resume_with_gemini(resume_text, job_description, job_title):
     
     try:
         # Initialize Gemini model
-        model = genai.GenerativeModel('gemini-1.5-pro')
+        model = genai.GenerativeModel('gemini-1.5-flash')
         
         # Prompt for ATS analysis
         prompt = f"""
